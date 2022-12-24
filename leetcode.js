@@ -147,3 +147,61 @@ var longestCommonPrefix = function (strs) {
 
   return longest.join("");
 };
+
+//////////////////////
+
+// #20: Valid Parentheses
+
+// Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+// An input string is valid if:
+
+// Open brackets must be closed by the same type of brackets.
+// Open brackets must be closed in the correct order.
+// Every close bracket has a corresponding open bracket of the same type.
+
+// Example 1:
+
+// Input: s = "()"
+// Output: true
+// Example 2:
+
+// Input: s = "()[]{}"
+// Output: true
+// Example 3:
+
+// Input: s = "(]"
+// Output: false
+
+//SOLUTION: (personal)
+
+var isValid = function (s) {
+  let myStack = [];
+  let opening = ["(", "[", "{"];
+  let closing = ["]", "}", ")"];
+
+  for (let i = 0; i < s.length; i++) {
+    if (opening.includes(s[i])) {
+      myStack.push(s[i]);
+    } else {
+      if (closing.includes(s[i])) {
+        let last = myStack.pop();
+        if (s[i] == "]" && last !== "[") {
+          return false;
+        }
+        if (s[i] == ")" && last !== "(") {
+          return false;
+        }
+        if (s[i] == "}" && last !== "{") {
+          return false;
+        }
+      }
+    }
+  }
+
+  if (myStack.length > 0) {
+    return false;
+  }
+
+  return true;
+};
