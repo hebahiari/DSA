@@ -256,3 +256,100 @@ var mergeTwoLists = function (list1, list2) {
     return list2;
   }
 };
+
+/////////////////////
+
+// 26. Remove Duplicates from Sorted Array
+
+// Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+
+// Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+
+// Return k after placing the final result in the first k slots of nums.
+
+// Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+// Example 1:
+
+// Input: nums = [1,1,2]
+// Output: 2, nums = [1,2,_]
+// Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+// It does not matter what you leave beyond the returned k (hence they are underscores).
+// Example 2:
+
+// Input: nums = [0,0,1,1,1,2,2,3,3,4]
+// Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+// Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+// It does not matter what you leave beyond the returned k (hence they are underscores).
+
+// SOLUTION: (personal):
+
+var removeDuplicates = function (nums) {
+  if (nums.length) {
+    let switchIndex = 1;
+    let currentLetter = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+      if (nums[i] !== currentLetter) {
+        currentLetter = nums[i];
+        nums[switchIndex] = currentLetter;
+        switchIndex++;
+      }
+    }
+    return switchIndex;
+  }
+
+  return 0;
+};
+
+///////////////////
+
+// 66. Plus One
+
+// You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+// Increment the large integer by one and return the resulting array of digits.
+
+// Example 1:
+
+// Input: digits = [1,2,3]
+// Output: [1,2,4]
+// Explanation: The array represents the integer 123.
+// Incrementing by one gives 123 + 1 = 124.
+// Thus, the result should be [1,2,4].
+// Example 2:
+
+// Input: digits = [4,3,2,1]
+// Output: [4,3,2,2]
+// Explanation: The array represents the integer 4321.
+// Incrementing by one gives 4321 + 1 = 4322.
+// Thus, the result should be [4,3,2,2].
+// Example 3:
+
+// Input: digits = [9]
+// Output: [1,0]
+// Explanation: The array represents the integer 9.
+// Incrementing by one gives 9 + 1 = 10.
+// Thus, the result should be [1,0].
+
+//SOLUTION: (Personal)
+
+var plusOne = function (digits) {
+  if (digits) {
+    let lastIndex = digits.length - 1;
+
+    if (digits[lastIndex] !== 9) {
+      digits[lastIndex]++;
+    } else {
+      if (digits.length == 1) {
+        return [1, 0];
+      } else {
+        digits = plusOne(digits.slice(0, lastIndex)).concat([0]);
+      }
+    }
+
+    return digits;
+  }
+
+  return [1];
+};
