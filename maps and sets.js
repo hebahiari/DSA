@@ -184,3 +184,47 @@ function anagramGroups(words) {
 
   return [...myMap.values()];
 }
+
+// Permutation palindrome
+
+// Write an algorithm to check whether any anagram of some string is a palindrome. Given the string acecarr, the algorithm should return true, because the letters in acecarr can be rearranged to the anagram racecar, which itself is a palindrome. In contrast, given the word north, the algorithm should return false, because there's no anagram for north that would be a palindrome.
+
+function permutationPalindrome(word) {
+  let myMap = new Map();
+  Array.from(word).forEach((letter) => {
+    let existing = myMap.get(letter);
+    myMap.has(letter) ? myMap.set(letter, existing + 1) : myMap.set(letter, 1);
+  });
+  let odd = 0;
+  myMap.forEach((value, key) => {
+    if (value % 2 !== 0) {
+      odd++;
+    }
+  });
+
+  return odd > 1 ? false : true;
+}
+
+// First single character
+
+// Given a string, find the first character in that string that occurs only once. For example, given the string thinkful, return the character t since that is the first character in the string that is not repeated in the string.
+
+// Given the string character, return h because the first character c is repeated later in the string so the first nonrepeating character is h.
+
+// If no single characters are found, return null.
+
+function firstSingleCharacter(word) {
+  let unique = new Set();
+  let duplicates = new Set();
+
+  for (let i = 0; i < word.length; i++) {
+    if (unique.has(word[i])) {
+      unique.delete(word[i]);
+      duplicates.add(word[i]);
+    } else if (!duplicates.has(word[i])) {
+      unique.add(word[i]);
+    }
+  }
+  let array = [...unique];
+  return array.length ? array[0] : null;
+}
