@@ -108,3 +108,79 @@ function sameLetters(words) {
   });
   return results;
 }
+
+// Anagram
+// Given two strings s1 and s2, determine if the two strings are anagrams of each other or not.
+
+// Two words are anagrams of each other if they are both spelled with the letters. For example, the words race and care are anagrams.
+
+// Write a function that returns true if the two strings are anagrams of each other, false otherwise.
+
+//SOLUTION WITHOUT USING A MAP
+
+function anagram(s1, s2) {
+  if (s1.length == s2.length) {
+    s1 = s1.toLowerCase().split("").sort();
+    s2 = s2.toLowerCase().split("").sort();
+    for (let i = 0; i < s1.length; i++) {
+      if (s1[i] !== s2[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return false;
+}
+
+// SOLUTION USING A MAP
+
+function anagram(s1, s2) {
+  if (s1.length !== s2.length) {
+    return false;
+  }
+
+  let myMap = new Map();
+
+  s1 = s1.split("");
+  s2 = s2.split("");
+
+  for (let i = 0; i < s1.length; i++) {
+    let mapValue = myMap.get(s1[i].toLowerCase());
+    mapValue
+      ? myMap.set(s1[i].toLowerCase(), mapValue + 1)
+      : myMap.set(s1[i].toLowerCase(), 1);
+  }
+
+  for (let j = 0; j < s2.length; j++) {
+    let mapValue = myMap.get(s2[j].toLowerCase());
+    mapValue ? myMap.set(s2[j].toLowerCase(), mapValue - 1) : false;
+  }
+
+  for (let value of myMap.values()) {
+    if (value !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// Anagram groups
+
+// Given a list of words, group the words into anagram groups. That is, place all words in the list that are anagrams of each other into a group.
+
+// For example, if the input was ['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race'], the output should be [['east', 'teas', 'eats'], ['cars', 'arcs'], ['acre', 'race']].
+
+function anagramGroups(words) {
+  let myMap = new Map();
+
+  for (let i = 0; i < words.length; i++) {
+    let letters = words[i].split("").sort().join("");
+    let existing = myMap.get(letters);
+    existing
+      ? myMap.set(letters, [...existing, words[i]])
+      : myMap.set(letters, [words[i]]);
+  }
+
+  return [...myMap.values()];
+}
