@@ -450,13 +450,13 @@ var merge = function (nums1, m, nums2, n) {
 //SOLUTION: (personal)
 
 var generate = function (numRows) {
-  let result = [];
-  let currentArray = [1, 1];
-
   if (numRows === 0) return [];
   if (numRows === 1) return [[1]];
 
-  for (let i = 2; i < numRows; i++) {
+  let result = [[1]];
+  let currentArray = [];
+
+  for (let i = 0; i < numRows - 1; i++) {
     let subArray = [];
 
     for (let j = 0; j < currentArray.length - 1; j++) {
@@ -469,7 +469,75 @@ var generate = function (numRows) {
     result.push(subArray);
   }
 
-  result.unshift([1, 1]);
-  result.unshift([1]);
   return result;
+};
+
+// 121. Best Time to Buy and Sell Stock
+
+// You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+// You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+// Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+// Example 1:
+
+// Input: prices = [7,1,5,3,6,4]
+// Output: 5
+// Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+// Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+// Example 2:
+
+// Input: prices = [7,6,4,3,1]
+// Output: 0
+// Explanation: In this case, no transactions are done and the max profit = 0.
+
+//Solution (personal)
+
+var maxProfit = function (prices) {
+  if (prices) {
+    let [min, max, biggestDifference] = [prices[0], -Infinity, 0];
+
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] < min) {
+        if (max > 0) {
+          let currentDifference = max - min;
+          if (currentDifference > biggestDifference) {
+            biggestDifference = currentDifference;
+          }
+        }
+        min = prices[i];
+        max = -Infinity;
+      } else if (prices[i] > max) {
+        max = prices[i];
+      }
+    }
+
+    let currentDifference = max - min;
+    if (currentDifference > biggestDifference) {
+      biggestDifference = currentDifference;
+    }
+
+    return biggestDifference;
+  }
+
+  return 0;
+};
+
+//SOLUTION (Neetcode)
+
+var maxProfit = function (prices) {
+  let [left, right, max] = [0, 1, 0];
+
+  while (right < prices.length) {
+    const canSlide = prices[right] <= prices[left];
+    if (canSlide) left = right;
+
+    const window = prices[right] - prices[left];
+
+    max = Math.max(max, window);
+    right++;
+  }
+
+  return max;
 };
