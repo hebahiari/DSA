@@ -501,10 +501,7 @@ var maxProfit = function (prices) {
     for (let i = 1; i < prices.length; i++) {
       if (prices[i] < min) {
         if (max > 0) {
-          let currentDifference = max - min;
-          if (currentDifference > biggestDifference) {
-            biggestDifference = currentDifference;
-          }
+          biggestDifference = Math.max(max - min, biggestDifference);
         }
         min = prices[i];
         max = -Infinity;
@@ -513,12 +510,7 @@ var maxProfit = function (prices) {
       }
     }
 
-    let currentDifference = max - min;
-    if (currentDifference > biggestDifference) {
-      biggestDifference = currentDifference;
-    }
-
-    return biggestDifference;
+    return Math.max(max - min, biggestDifference);
   }
 
   return 0;
@@ -540,4 +532,50 @@ var maxProfit = function (prices) {
   }
 
   return max;
+};
+
+// 125. Valid Palindrome
+
+// A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+// Given a string s, return true if it is a palindrome, or false otherwise.
+
+// Example 1:
+
+// Input: s = "A man, a plan, a canal: Panama"
+// Output: true
+// Explanation: "amanaplanacanalpanama" is a palindrome.
+// Example 2:
+
+// Input: s = "race a car"
+// Output: false
+// Explanation: "raceacar" is not a palindrome.
+// Example 3:
+
+// Input: s = " "
+// Output: true
+// Explanation: s is an empty string "" after removing non-alphanumeric characters.
+// Since an empty string reads the same forward and backward, it is a palindrome.
+
+//SOLUTION (personal but copied a better way to write it)
+
+var isPalindrome = function (s) {
+  s = s.toLowerCase().replace(/[^a-zA-Z0-9]/g, "");
+  let middle = Math.floor(s.length / 2);
+
+  const stack = [];
+
+  for (let index = 0; index < middle; index++) {
+    stack.push(s[index]);
+  }
+
+  middle += s.length % 2 === 0 ? 0 : 1;
+
+  for (let index = middle, limit = s.length; index < limit; index++) {
+    if (s[index] !== stack.pop()) {
+      return false;
+    }
+  }
+
+  return true;
 };
