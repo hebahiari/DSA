@@ -282,3 +282,18 @@ const cycle = (list) => {
 
   return false;
 };
+
+// An algorithm to delete all duplicate values from a sorted linked list
+
+function removeDuplicates(sortedLinkedList) {
+  // TODO: implement an algorithm to remove duplicate values from a sorted linked list.
+  let node = sortedLinkedList.head;
+
+  while (node && node.next) {
+    if (node.value == node.next.value) {
+      node.next = node.next.next ? node.next.next : null;
+    }
+    node = node.next;
+  }
+  return sortedLinkedList;
+}

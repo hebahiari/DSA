@@ -102,3 +102,28 @@ const connected = (graph, startUser, endUser) => {
 
   return false;
 };
+
+// Generate binary numbers
+// Given a number max, write an algorithm that generates all binary integers from 1 to max.
+
+// Examples:
+
+// Input: max = 2
+// Output: ["1", "10"]
+
+// Input: max = 5
+// Output: ["1", "10", "11", "100", "101"]
+
+const binary = (max) => {
+  let myQueue = new Queue();
+  myQueue.enqueue("1");
+  let result = [];
+
+  for (let i = 1; i <= max; i++) {
+    let dequeued = myQueue.dequeue();
+    result.push(dequeued);
+    myQueue.enqueue(dequeued + "0");
+    myQueue.enqueue(dequeued + "1");
+  }
+  return result;
+};

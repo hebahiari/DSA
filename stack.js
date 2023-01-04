@@ -165,3 +165,59 @@ const postfix = (expression) => {
 };
 
 postfix("(((a + b) * (c - d))/(a - b) + (c / d))");
+
+// Evaluating postfix expressions
+
+// AKA taking a postfix expression and giving the resulting number value
+
+const evaluate = (expression) => {
+  let myStack = new Stack();
+  let text = expression.split(" ");
+
+  text.forEach((char) => {
+    if ("+-/*".includes(char)) {
+      let a = parseInt(myStack.pop());
+      let b = parseInt(myStack.pop());
+      let result = 0;
+      if (char == "*") {
+        result = b * a;
+      } else if (char == "/") {
+        result = b / a;
+      } else if (char == "+") {
+        result = a + b;
+      } else if (char == "-") {
+        result = b - a;
+      }
+      myStack.push(result);
+    } else {
+      myStack.push(char);
+    }
+  });
+
+  return myStack.top.value;
+};
+
+// Extend parentheses to other types of brackets
+
+// Recall the algorithm that was used to determine if a given expression contained matching parentheses.
+
+// Extend the algorithm to recognize 3 different types of brackets: (), [], and {}. These must be correctly nested; "([)]" is incorrect and should return false.
+
+const matche = (expression) => {
+  let myStack = new Stack();
+
+  for (let i = 0; i < expression.length; i++) {
+    let character = expression[i];
+    if ("([{".includes(character)) {
+      myStack.push(character);
+    } else if (")}]".includes(character)) {
+      if (!myStack.top) return false;
+      let stackTop = myStack.pop();
+      if (character == ")" && stackTop !== "(") return false;
+      if (character == "}" && stackTop !== "{") return false;
+      if (character == "]" && stackTop !== "[") return false;
+    }
+  }
+  if (myStack.top) return false;
+  return true;
+};
