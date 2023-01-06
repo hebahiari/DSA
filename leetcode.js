@@ -740,3 +740,76 @@ var getIntersectionNode = function (headA, headB) {
   }
   return a;
 };
+
+// 169. Majority Element
+
+// Given an array nums of size n, return the majority element.
+
+// The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+// Example 1:
+
+// Input: nums = [3,2,3]
+// Output: 3
+// Example 2:
+
+// Input: nums = [2,2,1,1,1,2,2]
+// Output: 2
+
+// SOLUTION (personal)
+
+var majorityElement = function (nums) {
+  let myMap = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    myMap.set(nums[i], myMap.get(nums[i]) ? myMap.get(nums[i]) + 1 : 1);
+  }
+
+  let max = [0, 0];
+  for (let [key, value] of myMap.entries()) {
+    if (value > max[1]) {
+      max = [key, value];
+    }
+  }
+
+  return max[0];
+};
+
+// SOLUTION (dev)
+
+// https://dev.to/ankan_2025/majority-element-leetcode-3g50
+
+function majorityElement(nums) {
+  let candidate = nums[0];
+  let currentCount = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    // * According to moore's algorithm if value at current position is equivalent to candidate, we increment the currentCount
+    if (candidate === nums[i]) {
+      currentCount++;
+    }
+    //  * According to moore's algorithm if value at current position is not equivalent to candidate, we decrement the currentCount
+    else {
+      currentCount--;
+    }
+
+    // * If the currentCount is equal to 0 we update the candidate as the number at current position also we increment the currentCount
+    if (currentCount === 0) {
+      candidate = nums[i];
+      currentCount++;
+    }
+  }
+
+  // * NOTE: According to Moore's algo, if the currentCount is less than or equal to zero, we can conclude that no majority element exists in the array.
+
+  let candidateCount = 0;
+
+  // * We just verify here that the count of the selected candidate is actually greater than half of length of the array.
+  for (let i of nums) {
+    if (i === candidate) candidateCount++;
+  }
+
+  if (candidateCount <= nums.length / 2) return -1;
+
+  return candidate;
+}
