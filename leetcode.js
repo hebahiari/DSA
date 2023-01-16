@@ -927,3 +927,34 @@ var isHappy = function (n, mySet = new Set()) {
   mySet.add(added);
   return isHappy(added, mySet);
 };
+
+// 206. Reverse Linked List
+
+// Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+// Example 1:
+
+// Input: head = [1,2,3,4,5]
+// Output: [5,4,3,2,1]
+// Example 2:
+
+// Input: head = [1,2]
+// Output: [2,1]
+// Example 3:
+
+// Input: head = []
+// Output: []
+
+//SOLUTION (personal)
+
+var reverseList = function (head) {
+  let currentNode = null;
+
+  let node = head;
+  while (node) {
+    currentNode = new ListNode(node.val, currentNode);
+    node = node.next;
+  }
+
+  return currentNode;
+};
