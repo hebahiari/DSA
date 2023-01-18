@@ -463,6 +463,48 @@ var inorderTraversal = function (root, result = []) {
   return result;
 };
 
+// 101. Symmetric Tree
+
+// Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+// Example 1:
+
+// Input: root = [1,2,2,3,4,4,3]
+// Output: true
+// Example 2:
+
+// Input: root = [1,2,2,null,3,null,3]
+// Output: false
+
+// SOLUTION (DEV):
+
+var isSymmetric = function (left_tree, right_tree = left_tree) {
+
+  // Both are trees are the same
+  if (!left_tree && !right_tree) {
+      return true;
+  }
+
+  // One exists without another?
+  if (!left_tree || !right_tree) {
+      return false;
+  }
+
+  // Are left and right of same value?
+  // If not return false
+  if (left_tree.val != right_tree.val) {
+      return false;
+  }
+
+  // Do all the left trees and right trees
+  let outer_tree = isSymmetric(left_tree.left,  right_tree.right);
+  let inner_tree = isSymmetric(left_tree.right, right_tree.left);
+
+  // Are both trees the same?
+  return outer_tree && inner_tree;
+};
+
+
 // 118. Pascal's Triangle
 
 // Given an integer numRows, return the first numRows of Pascal's triangle.
