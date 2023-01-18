@@ -432,6 +432,37 @@ var merge = function (nums1, m, nums2, n) {
   return nums1;
 };
 
+// 94. Binary Tree Inorder Traversal
+// Given the root of a binary tree, return the inorder traversal of its nodes' values.
+
+// Example 1:
+
+// Input: root = [1,null,2,3]
+// Output: [1,3,2]
+// Example 2:
+
+// Input: root = []
+// Output: []
+// Example 3:
+
+// Input: root = [1]
+// Output: [1]
+
+//SOLUTION (personal):
+
+var inorderTraversal = function (root, result = []) {
+  if (root) {
+    if (root.left) {
+      result = inorderTraversal(root.left, result);
+    }
+    result.push(root.val);
+    if (root.right) {
+      result = inorderTraversal(root.right, result);
+    }
+  }
+  return result;
+};
+
 // 118. Pascal's Triangle
 
 // Given an integer numRows, return the first numRows of Pascal's triangle.
