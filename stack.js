@@ -10,17 +10,60 @@ class Stack {
     this.top = null;
   }
 
+  //returns stack
   push(value) {
     this.top = new Node(value, this.top);
     return this;
   }
 
+  // returns popped value
   pop() {
     let popped = this.top;
     this.top = popped.next;
     return popped.value;
   }
+
 }
+
+class ArrayStack {
+  constructor() {
+    this.items = [];
+  }
+
+  // Push operation to add an element to the top of the stack
+  push(data) {
+    this.items.push(data);
+  }
+
+  // Pop operation to remove and return the top element from the stack
+  pop() {
+    if (this.isEmpty()) {
+      return null; // Stack is empty
+    }
+    return this.items.pop();
+  }
+
+  // Peek operation to return the top element without removing it
+  peek() {
+    return this.isEmpty() ? null : this.items[this.items.length - 1];
+  }
+
+  // Check if the stack is empty
+  isEmpty() {
+    return this.items.length === 0;
+  }
+
+  // Get the size of the stack
+  getSize() {
+    return this.items.length;
+  }
+
+  // Display the elements of the stack
+  display() {
+    console.log(this.items.join(' '));
+  }
+}
+
 
 // Problem 1: Check for a palindrome
 
@@ -221,3 +264,5 @@ const matche = (expression) => {
   if (myStack.top) return false;
   return true;
 };
+
+module.exports = Stack

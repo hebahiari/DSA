@@ -131,6 +131,8 @@ class BinarySearchTree {
   }
 
   isBST() {
+    // this is to actually check if values are in order not if its balanced
+    //balanced is checked that height does not differ by more than 1
     const values = this.dfsInOrder();
     for (let i = 1; i < values.length; i++) {
       if (values[i] < values[i - 1]) {

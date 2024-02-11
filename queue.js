@@ -11,6 +11,7 @@ class Queue {
     this.last = null;
   }
 
+  // doesnt return
   enqueue(value) {
     const newNode = new Node(value);
 
@@ -23,6 +24,7 @@ class Queue {
     this.last = newNode;
   }
 
+  // returns value of dequeued
   dequeue() {
     if (this.first) {
       const dequeued = this.first;
@@ -35,6 +37,46 @@ class Queue {
     }
   }
 }
+
+class ArrayQueue {
+  constructor() {
+    this.items = [];
+  }
+
+  // Enqueue operation to add an element to the rear of the queue
+  enqueue(data) {
+    this.items.push(data);
+  }
+
+  // Dequeue operation to remove and return the front element from the queue
+  dequeue() {
+    if (this.isEmpty()) {
+      return null; // Queue is empty
+    }
+    return this.items.shift();
+  }
+
+  // Peek operation to return the front element without removing it
+  peek() {
+    return this.isEmpty() ? null : this.items[0];
+  }
+
+  // Check if the queue is empty
+  isEmpty() {
+    return this.items.length === 0;
+  }
+
+  // Get the size of the queue
+  getSize() {
+    return this.items.length;
+  }
+
+  // Display the elements of the queue
+  display() {
+    console.log(this.items.join(' '));
+  }
+}
+
 
 // Connected Friends
 

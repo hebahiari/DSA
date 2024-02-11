@@ -38,7 +38,83 @@ var twoSum = (nums, target, map = new Map()) => {
   return [-1, -1];
 };
 
+//My solution
+
+
+var twoSum = function (nums, target) {
+  let numbersMap = new Map()
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i]
+    const number = nums[i]
+    if (numbersMap.get(diff)) {
+      if (diff != number) {
+        return [numbersMap.get(diff)[0], i]
+      } else {
+        if (numbersMap.get(diff).length > 0) {
+          return [numbersMap.get(diff), i]
+        }
+      }
+    }
+    if (numbersMap.get(number)) {
+      numbersMap.set(number, [...numbersMap.get(number), i])
+    } else {
+      numbersMap.set(number, [i])
+    }
+  }
+  return false
+};
+
+
 ///////////////////////////////
+
+// 9. Palindrome Number
+// Easy
+// Given an integer x, return true if x is a 
+// palindrome
+// and false otherwise.
+
+// Example 1:
+
+// Input: x = 121
+// Output: true
+// Explanation: 121 reads as 121 from left to right and from right to left.
+// Example 2:
+
+// Input: x = -121
+// Output: false
+// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+// Example 3:
+
+// Input: x = 10
+// Output: false
+// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+
+// Constraints:
+
+// -231 <= x <= 231 - 1
+
+//My solution
+
+var isPalindrome = function(x) {
+  if (x < 0) {
+      return false; // Negative numbers are not palindromes
+  }
+
+  x = x.toString();
+  const middle = Math.floor((x.length - 1) / 2);
+
+  let firstHalf = x.slice(0, middle + 1);
+  let secondHalf = x.slice(middle).split('').reverse().join('');
+
+  // OR LOOP OVER THE FIRST HALF COMPARING [I] WITH [LENGTH -1 - I]
+  // OR LOOP OVER FIRST ARRAY AND POP FROM SECOND ARRAY
+
+  return firstHalf === secondHalf;
+};
+
+
+//////////////////////
 
 // #13 Roman to Integer -- easy
 
@@ -93,6 +169,8 @@ var romanToInt = function (s) {
     ["M", 1000],
   ];
 
+  // could also just use an object instead of a map
+
   let numbers = new Map(numbersValues);
 
   let result = 0;
@@ -108,6 +186,11 @@ var romanToInt = function (s) {
       temp = number;
       result += number;
     }
+
+    // could also just loop forward and check if i is smaller than i+1 (if i+1 exists)
+    // if smaller just subtract from count
+    // if larger add to count
+    // no need for temp
   }
 
   return result;
@@ -136,9 +219,10 @@ var romanToInt = function (s) {
 
 var longestCommonPrefix = function (strs) {
   let longest = strs[0].split("");
-
+  // non need to split you can loop over a str lol
   for (let i = 1; i < strs.length; i++) {
     for (let j = 0; j < longest.length; j++) {
+      // i like that im checking only up to the length of longest so it doesnt have to check the whole word each time
       if (longest[j] !== strs[i][j]) {
         longest.splice(j);
       }
@@ -181,6 +265,9 @@ var isValid = function (s) {
   let closing = ["]", "}", ")"];
 
   for (let i = 0; i < s.length; i++) {
+    //better to use set or map with has or get for faster lookup
+    // use a map with the closing as key and opening as value so we dont have to 
+    // check indeces
     if (opening.includes(s[i])) {
       myStack.push(s[i]);
     } else {
@@ -204,6 +291,65 @@ var isValid = function (s) {
   }
 
   return true;
+};
+
+// 14. Longest Common Prefix
+// Solved
+// Easy
+// Topics
+// Companies
+// Write a function to find the longest common prefix string amongst an array of strings.
+
+// If there is no common prefix, return an empty string "".
+
+
+
+// Example 1:
+
+// Input: strs = ["flower","flow","flight"]
+// Output: "fl"
+// Example 2:
+
+// Input: strs = ["dog","racecar","car"]
+// Output: ""
+// Explanation: There is no common prefix among the input strings.
+
+
+// Constraints:
+
+// 1 <= strs.length <= 200
+// 0 <= strs[i].length <= 200
+// strs[i] consists of only lowercase English letters.
+
+//my solution:
+
+
+var longestCommonPrefix = function (strs) {
+
+  if (strs.length == 0) return ""
+  let longest = strs[0]
+  strs.forEach((str) => {
+    if (str.length == 0) {
+      longest = ""
+    } else {
+      for (let i = 0; i < str.length; i++) {
+        let currentLetter = str[i]
+        let longestLetter = longest[i]
+        if (str.length < longest.length) {
+          longest = longest.slice(0, str.length)
+        }
+        if (currentLetter != longestLetter) {
+          longest = longest.slice(0, i)
+        }
+      }
+    }
+    // stop the loop if the longest prefix becomes empty
+    if (longest == "") {
+      return ""
+    }
+  }
+  )
+  return longest
 };
 
 // 21. Merge Two Sorted Lists -- easy
@@ -284,22 +430,37 @@ var mergeTwoLists = function (list1, list2) {
 
 // SOLUTION: (personal):
 
-var removeDuplicates = function (nums) {
-  if (nums.length) {
-    let switchIndex = 1;
-    let currentLetter = nums[0];
+// var removeDuplicates = function (nums) {
+//   if (nums.length) {
+//     let switchIndex = 1;
+//     let currentLetter = nums[0];
 
-    for (let i = 1; i < nums.length; i++) {
-      if (nums[i] !== currentLetter) {
-        currentLetter = nums[i];
-        nums[switchIndex] = currentLetter;
-        switchIndex++;
-      }
-    }
-    return switchIndex;
+//     for (let i = 1; i < nums.length; i++) {
+//       if (nums[i] !== currentLetter) {
+//         currentLetter = nums[i];
+//         nums[switchIndex] = currentLetter;
+//         switchIndex++;
+//       }
+//     }
+//     return switchIndex;
+//   }
+
+//   return 0;
+// };
+
+var removeDuplicates = function(nums) {
+  if(nums.length <= 1) {
+      return nums.length
   }
 
-  return 0;
+  let orderedIndex = 0
+  for(let i=1; i<nums.length; i++) {
+      if(nums[orderedIndex] !== nums[i]) {
+          nums[orderedIndex + 1] = nums[i]
+          orderedIndex++ 
+      }
+  }
+  return orderedIndex+1
 };
 
 ///////////////////
@@ -383,7 +544,7 @@ var plusOne = function (digits) {
 // Explanation: The square root of 4 is 2, so we return 2.
 // Example 2:
 
-// Input: x = 8
+// Input: x = 8 
 // Output: 2
 // Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
 
@@ -482,26 +643,46 @@ var isSymmetric = function (left_tree, right_tree = left_tree) {
 
   // Both are trees are the same
   if (!left_tree && !right_tree) {
-      return true;
+    return true;
   }
 
   // One exists without another?
   if (!left_tree || !right_tree) {
-      return false;
+    return false;
   }
 
   // Are left and right of same value?
   // If not return false
   if (left_tree.val != right_tree.val) {
-      return false;
+    return false;
   }
 
   // Do all the left trees and right trees
-  let outer_tree = isSymmetric(left_tree.left,  right_tree.right);
+  let outer_tree = isSymmetric(left_tree.left, right_tree.right);
   let inner_tree = isSymmetric(left_tree.right, right_tree.left);
 
   // Are both trees the same?
   return outer_tree && inner_tree;
+};
+
+//My solution:
+
+var isSymmetric = function(root) {
+  if(!root) {
+      return true
+  }
+
+  const rightequalsleft = (right,left) => {
+      if(!right && !left) {
+          return true
+      }
+      if(!right || !left || right.val != left.val) {
+          return false
+      } 
+      return rightequalsleft(right.right, left.left) && rightequalsleft(right.left,left.right)
+  }
+
+  return rightequalsleft(root.right,root.left)
 };
 
 
@@ -511,7 +692,7 @@ var isSymmetric = function (left_tree, right_tree = left_tree) {
 // height-balanced
 //  binary search tree.
 
- 
+
 
 // Example 1:
 
@@ -529,17 +710,17 @@ var isSymmetric = function (left_tree, right_tree = left_tree) {
 
 // SOLUTION (personal):
 
-var sortedArrayToBST = function(nums) {
-  if(nums.length) {
+var sortedArrayToBST = function (nums) {
+  if (nums.length) {
 
-  if(nums.length == 1) {
+    if (nums.length == 1) {
       return new TreeNode(nums[0])
+    }
+    let middle = Math.floor(nums.length / 2)
+
+    return new TreeNode(nums[middle], sortedArrayToBST(nums.slice(0, middle)), sortedArrayToBST(nums.slice(middle + 1, nums.length)))
+
   }
-  let middle = Math.floor(nums.length/2)
-
-  return new TreeNode(nums[middle], sortedArrayToBST(nums.slice(0, middle)), sortedArrayToBST(nums.slice(middle+1, nums.length)))
-
-  } 
 
   return null
 };
@@ -690,6 +871,30 @@ var isPalindrome = function (s) {
   }
 
   return true;
+};
+
+//optimizied solution(personal):
+var isPalindrome = function(s) {
+  if(!s || s.length == 1) return true
+  s=s.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+  let mid= Math.floor(s.length/2)
+  for(let i=0; i<mid+1;i++) {
+      if(s[i]!== s[s.length-i-1]) {
+          return false
+      }
+  }
+  return true
+};
+
+// recursive solution(personal) :
+var isPalindrome = function(s) {
+  if(!s || s.length == 1) return true
+  s=s.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+  if(s[0] == s[s.length -1]) {
+      return isPalindrome(s.slice(1,s.length-1))
+  } else {
+      return false
+  }
 };
 
 // 136. Single Number
@@ -887,6 +1092,26 @@ var majorityElement = function (nums) {
   return max[0];
 };
 
+//improved solution (personal): 
+var majorityElement = function(nums) {
+  if(nums.length == 1) return nums[0]
+  let numsMap = new Map()
+  let goal = Math.floor(nums.length/2) + 1
+  for(let i=0;i<nums.length;i++) {
+      let num = nums[i]
+      let valueInMap = numsMap.get(num)
+      if(valueInMap) {
+          if(valueInMap+1>=goal) {
+              return num
+          }
+          numsMap.set(num,valueInMap+1)
+      } else {
+          numsMap.set(num,1)
+      }
+  }
+  return null
+};
+
 // SOLUTION (dev)
 
 // https://dev.to/ankan_2025/majority-element-leetcode-3g50
@@ -967,6 +1192,22 @@ var titleToNumber = function (columnTitle) {
 
   return result;
 };
+
+
+// my solution (recursive):
+var titleToNumber = function(columnTitle) {
+  let currentLetterValue= columnTitle[0].charCodeAt(0) - 'A'.charCodeAt(0) + 1
+
+  let length = columnTitle.length
+
+  if(length == 1) {
+      return currentLetterValue
+  }    
+  let count = currentLetterValue*(26**(length-1)) + titleToNumber(columnTitle.slice(1))
+
+  return count
+};
+
 
 // 190. Reverse Bits
 
@@ -1071,4 +1312,50 @@ var reverseList = function (head) {
   return currentNode;
 };
 
+//////////////////
 
+// 217. Contains Duplicate
+// Solved
+// Easy
+// Topics
+// Companies
+// Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+ 
+
+// Example 1:
+
+// Input: nums = [1,2,3,1]
+// Output: true
+// Example 2:
+
+// Input: nums = [1,2,3,4]
+// Output: false
+// Example 3:
+
+// Input: nums = [1,1,1,3,3,4,3,2,4,2]
+// Output: true
+ 
+
+// Constraints:
+
+// 1 <= nums.length <= 105
+// -109 <= nums[i] <= 109
+
+//my solution:
+
+var containsDuplicate = function(nums) {
+  const occured = new Set()
+  let duplicate = false
+  for (let i=0; i<nums.length && !duplicate; i++){
+      const number = nums[i]
+      if(occured.has(number)){
+          duplicate = true
+      } else {
+          occured.add(number)
+      }
+      // you should return false as soon as you find a duplicate
+  }
+
+  return duplicate
+};
